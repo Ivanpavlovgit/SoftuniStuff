@@ -8,4 +8,7 @@ public interface EntityManager {
 
     <T> T findById(int id, Class<T> type) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException;
 
+    public <T> boolean persists(T entity) throws IllegalAccessException;
+
+
 }

@@ -2,9 +2,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class taskFromChocho {
+
+public class taskForExc {
     private static final String CONNECTION_STRING = "jdbc:mysql://localhost:3306/";
     private static final String DB_NAME = "minions_db";
     private static final BufferedReader reader =
@@ -12,22 +14,73 @@ public class taskFromChocho {
     private static Connection connection;
 
     public static void main (String[] args) throws IOException, SQLException {
+// Enter your MYSQL server username and password in definition of getConnection()
+// if you want to run the tasks faster
+// Enjoy... :)
         connection = getConnection ();
 
         System.out.println ("Enter task number:");
         int taskNum = Integer.parseInt (reader.readLine ());
         switch (taskNum) {
-            case 1 -> task1 ();
             case 2 -> task2 ();
             case 3 -> task3 ();
             case 4 -> task4 ();
-
+            case 5 -> task5 ();
+            case 7 -> task7 ();
+            case 8 -> task8 ();
+            case 9 -> task9 ();
         }
+        taskSeparator ();
+    }
+
+
+    private static void task9 () throws IOException, SQLException {
+        System.out.println ("9.Increase Age Stored Procedure");
+        System.out.println ("Enter minion id :");
+        int minionId = Integer.parseInt (reader.readLine ());
+        CallableStatement callableStatement = connection
+                .prepareCall ("CALL usp_get_older(?)");
+        callableStatement.setInt (1,minionId);
+        callableStatement.executeUpdate ();
+
 
     }
 
-    private static void task4 () throws IOException, SQLException {
-        System.out.println ("You have chosen fourth task !");
+    private static void task8 () throws IOException, SQLException {
+        System.out.println ("Increase Minions Age");
+        System.out.println ("Enter minions id's separated by whitespace EG: 1 2 3");
+        List<Integer> input = Arrays.stream (reader.readLine ().split (" "))
+                .mapToInt (Integer::parseInt)
+                .boxed ()
+                .collect (Collectors.toList ());
+
+        CallableStatement callableStatement = connection
+                .prepareCall ("CALL usp_get_older(?)");
+        for (Integer minionId : input) {
+            callableStatement.setInt (1,minionId);
+            callableStatement.executeUpdate ();
+        }
+    }
+
+    private static void task7 () throws SQLException {
+        System.out.println ("7.Print All Minion Names");
+        PreparedStatement preparedStatement = connection.prepareStatement ("SELECT name FROM minions");
+        ResultSet         resultSet         = preparedStatement.executeQuery ();
+        List<String>      allMinionsNames   = new ArrayList<> ();
+        while (resultSet.next ()) {
+            allMinionsNames.add (resultSet.getString (1));
+        }
+        int start = 0;
+        int end   = allMinionsNames.size () - 1;
+        for (int i = 0; i < allMinionsNames.size (); i++) {
+            System.out.println (i % 2 == 0
+                    ? allMinionsNames.get (start++) : allMinionsNames.get (end--));
+        }
+        taskSeparator ();
+    }
+
+    private static void task5 () throws IOException, SQLException {
+        System.out.println ("5.Change Town Names Casing !");
         System.out.println ("Enter Country name");
         String countryName = reader.readLine ();
 
@@ -48,8 +101,9 @@ public class taskFromChocho {
             System.out.println (resultSet.getString ("name"));
         }
     }
-    private static void task3 () throws SQLException, IOException {
-        System.out.println ("You have chosen third task !");
+
+    private static void task4 () throws SQLException, IOException {
+        System.out.println ("4.Add Minion");
         System.out.println ("Enter information about the minion to be inserted : name age town");
 
         String[] minionInfo = reader.readLine ().split (" ");
@@ -116,10 +170,10 @@ public class taskFromChocho {
         linkMinionToVillain.executeUpdate ();
 
         System.out.printf ("Successfully added %s to be minion of %s%n",minionName,villainName);
-        taskSeparator ();
     }
-    private static void task2 () throws SQLException, IOException {
-        System.out.println ("You have chosen second task !");
+
+    private static void task3 () throws SQLException, IOException {
+        System.out.println ("3.Get Minion Names");
         System.out.println ("Enter the desired villain's ID:");
 
         int villainId = Integer.parseInt (reader.readLine ());
@@ -155,10 +209,10 @@ public class taskFromChocho {
                         resultSet.getString (3));
             }
         }
-        taskSeparator ();
     }
-    private static void task1 () throws SQLException {
-        System.out.println ("You have chosen first task !");
+
+    private static void task2 () throws SQLException {
+        System.out.println ("2.Get Villains’ Names");
         PreparedStatement preparedStatement = connection.prepareStatement ("""
                 SELECT\s
                     v.`name`, COUNT( DISTINCT m.`id`) AS `count_minion_army`
@@ -176,9 +230,18 @@ public class taskFromChocho {
         while (resultSet.next ()) {
             System.out.printf ("%s %d %n",resultSet.getString (1),resultSet.getInt (2));
         }
-        taskSeparator ();
     }
 
+   /* private static findEntityNameById (String tableName,int entityId) {
+        String query = "SELECT name From ? WHERE id=?";
+        PreparedStatement preparedStatement =
+                connection.prepareStatement (query);
+        preparedStatement.setString (1,tableName);
+        preparedStatement.setInt (2,entityId);
+        ResultSet resultSet=preparedStatement.executeQuery ();
+        resultSet.next ();
+        return resultSet.getString (1);
+    }*/
 
     private static Connection getConnection () throws IOException, SQLException {
         System.out.println ("Enter User:");
@@ -191,7 +254,8 @@ public class taskFromChocho {
         return DriverManager.
                 getConnection (CONNECTION_STRING + DB_NAME,properties);
     }
+
     private static void taskSeparator () {
-        System.out.println ("- - - - - - - - - - - - - - - - - -");
+        System.out.println ("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
     }
 }

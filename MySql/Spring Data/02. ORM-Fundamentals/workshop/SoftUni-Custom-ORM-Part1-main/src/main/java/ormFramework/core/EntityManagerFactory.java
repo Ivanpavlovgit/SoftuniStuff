@@ -28,7 +28,7 @@ public class EntityManagerFactory {
 
         List<Class<?>> classes = getEntities(mainClass);
 
-//        createTables(connection, classes);
+       createTables(connection, classes);
 
         return new EntityManagerImpl(connection);
     }
@@ -36,7 +36,7 @@ public class EntityManagerFactory {
     private static void createTables(Connection connection, List<Class<?>> classes) throws SQLException {
         for (Class classInfo : classes) {
             Entity entityInfo = (Entity) classInfo.getAnnotation(Entity.class);
-            String sql = "CREATE TABLE ";
+            String sql = "CREATE TABLE IF NOT EXISTS ";
 
             String tableName = entityInfo.tableName();
 
@@ -91,7 +91,9 @@ public class EntityManagerFactory {
             if (file.isDirectory()) {
                 scanEntities(file, packageName + "." + file.getName(), classes);
             } else if (file.getName().endsWith(".class")) {
-                Class<?> classInfo = Class.forName(packageName + "." + file.getName().replace(".class", ""));
+                Class<?> classInfo = Class
+                        .forName(packageName + "." + file.getName()
+                                .replace(".class", ""));
                 if (classInfo.isAnnotationPresent(Entity.class)) {
                     classes.add(classInfo);
                 }
