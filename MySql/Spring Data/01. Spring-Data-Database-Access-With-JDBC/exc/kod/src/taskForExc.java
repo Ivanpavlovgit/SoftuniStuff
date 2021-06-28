@@ -134,7 +134,7 @@ public class taskForExc {
         }
 
 
-        PreparedStatement searchVillains = connection.prepareStatement ("SELECT v.`id` FROM `villains` AS v WHERE v.`name`=?;");
+        //PreparedStatement searchVillains = connection.prepareStatement ("SELECT v.`id` FROM `villains` AS v WHERE v.`name`=?;");
         searchTowns.setString (1,villainName);
         ResultSet rsVillains = searchTowns.executeQuery ();
 
