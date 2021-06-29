@@ -1,30 +1,27 @@
-import entities.Employee;
 import entities.Town;
-import org.hibernate.Transaction;
-import org.hibernate.query.criteria.internal.expression.function.UpperFunction;
 
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class Main {
     public static void main (String[] args) {
         EntityManagerFactory factory =
-                Persistence.createEntityManagerFactory ("soft_uni");
+                Persistence.createEntityManagerFactory ("nqkvoime");
         EntityManager em = factory
                 .createEntityManager ();
 
         em.getTransaction ().begin ();
 
-        CriteriaBuilder cb       = em.getCriteriaBuilder ();
-       TypedQuery<Town> townTypedQuery= em.createQuery ( "SELECT t FROM Town t WHERE LENGTH(t.name)>5 ",Town.class);
-        List<Town>      resultList = townTypedQuery.getResultList ();
+
+        TypedQuery<Town> townTypedQuery =
+                em.createQuery ("SELECT t FROM Town t WHERE LENGTH(t.name)>5 ",Town.class);
+        List<Town>       resultList     = townTypedQuery.getResultList ();
         System.out.println (resultList);
         for (Town town : resultList) {
-
-            String name=town.getName ().toUpperCase ();
+            String name = town.getName ().toLowerCase ();
             em.detach (town);
             town.setName (name);
             Town merge = em.merge (town);
