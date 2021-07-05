@@ -1,13 +1,10 @@
 
 import entities.Student;
-import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 public class Main {
@@ -16,7 +13,9 @@ public class Main {
                 .configure ()
                 .buildSessionFactory ();
 
-        EntityManager session= sessionFactory.openSession ();
+        EntityManager session=
+                sessionFactory
+                        .openSession ();
 
         TypedQuery<Student> query=session.createQuery ("FROM Student",
                 Student.class);

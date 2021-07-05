@@ -1,14 +1,12 @@
 package entities;
 
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.sound.midi.Soundbank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,13 +22,14 @@ public class Engine implements Runnable {
 
     @Override
     public void run () {
-
+        System.out.println ("Hello !");
+        System.out.println ("Exercises: Introduction to Hibernate");
 
         try {
             System.out.println ("Do you want to select a task (YES/NO)");
             String input = bufferedReader.readLine ();
-            while (!input.equals ("NO")) {
-                if (input.equals ("YES")) {
+            while (!input.equalsIgnoreCase ("NO")) {
+                if (input.equalsIgnoreCase ("YES")) {
                     System.out.println ("Select task number");
                     int taskNum = Integer.parseInt (bufferedReader.readLine ());
                     switch (taskNum) {
@@ -39,25 +38,24 @@ public class Engine implements Runnable {
                         case 4 -> task4 ();
                         case 5 -> task5 ();
                         case 6 -> task6 ();
+                        case 7 -> task7 ();
                         case 8 -> task8 ();
+                        case 9 -> task9 ();
                         case 10 -> task10 ();
+                        case 11 -> task11 ();
                         case 12 -> task12 ();
                         case 13 -> task13 ();
 
                     }
                     System.out.println ("Do you want to select another task (YES/NO)");
-                    input = bufferedReader.readLine ();
                 } else {
                     System.out.println ("Incorrect input");
                     System.out.println ("Please write YES,NO or a task number (int)");
-                    input = bufferedReader.readLine ();
                 }
+                input = bufferedReader.readLine ();
 
             }
-            if (input.equals ("NO")) {
-                System.out.println ("Have a nice day!");
-            }
-
+            System.out.println ("Have a nice day!");
         } catch (IOException e) {
             e.printStackTrace ();
         } finally {
@@ -65,13 +63,16 @@ public class Engine implements Runnable {
         }
     }
 
+
     private void task13 () throws IOException {
         System.out.println ("Task 13 : Remove Towns");
         System.out.println ("Enter town name to delete:");
         String townName = bufferedReader.readLine ();
 
         Town town = entityManager
-                .createQuery ("SELECT t FROM  Town t WHERE t.name=:t_name",Town.class)
+                .createQuery ("SELECT t FROM  Town t " +
+                                "WHERE t.name=:t_name",
+                        Town.class)
                 .setParameter ("t_name",townName)
                 .getSingleResult ();
 
@@ -85,7 +86,8 @@ public class Engine implements Runnable {
     }
 
     private int removeAddressByTownId (Integer id) {
-        List<Address> addresses = entityManager.createQuery ("SELECT a FROM Address a " +
+        List<Address> addresses = entityManager
+                .createQuery ("SELECT a FROM Address a " +
                 "WHERE a.town.id=:p_id",Address.class)
                 .setParameter ("p_id",id)
                 .getResultList ();
@@ -97,15 +99,38 @@ public class Engine implements Runnable {
 
     @SuppressWarnings("unchecked")
     private void task12 () {
-        List<Object[]> rows = entityManager
+        System.out.println ("Task 12 : Employees Maximum Salaries");
+      List<Object[]> rows = entityManager
                 .createNativeQuery ("SELECT d.name, MAX(e.salary) AS `max_salary`\n" +
                         "FROM departments d\n" +
                         "         join employees e on d.department_id = e.department_id\n" +
                         "group by d.name\n" +
                         "HAVING `max_salary` not between 30000 and 70000;")
                 .getResultList ();
+        for (Object[] row : rows) {
+            System.out.printf ("%s %.2f%n",row[0],row[1]);
+        }
 
-        //TODO:finish
+    }
+
+    private void task11 () throws IOException {
+        System.out.println ("Task 11 : Find Employees by First Name");
+        System.out.println ("Enter pattern to search :");
+        var input = bufferedReader.readLine ().concat ("%");
+        entityManager
+                .createQuery ("SELECT e FROM Employee e WHERE e.firstName LIKE :f_name",
+                        Employee.class)
+                .setParameter ("f_name",input)
+                .getResultStream ()
+                .forEach (employee -> {
+                    System.out.printf ("%s %s - %s - ($%.2f)%n",
+                            employee.getFirstName (),
+                            employee.getLastName (),
+                            employee.getJobTitle (),
+                            employee.getSalary ());
+                });
+
+
     }
 
     private void task10 () {
@@ -122,13 +147,75 @@ public class Engine implements Runnable {
 
     }
 
-    private void task8 () {
-        //TODO:finish this
-        Employee employee = entityManager.find (Employee.class,147);
+    private void task9 () {
+        System.out.println ("Task 9 : Find Latest 10 Projects");
+
+        entityManager
+                .createQuery ("SELECT p FROM Project p " +
+                                "ORDER BY p.startDate DESC",
+                        Project.class)
+                .setMaxResults (10)
+                .getResultStream ()
+                .sorted (Comparator.comparing (Project::getName))
+                .forEach (project -> {
+                    System.out.printf ("""
+                                    Project name: %s
+                                     \tProject Description: %s%n""",
+                            project.getName (),
+                            project.getDescription ());
+                    System.out.printf (" \tProject Start Date:%tF %tT.%tL%n",
+                            project.getStartDate (),
+                            project.getStartDate (),
+                            project.getStartDate ()
+                    );
+                    if (String.valueOf (project.getEndDate ()).equals ("null")) {
+                        System.out.printf (" \tProject End Date: null%n");
+                    } else {
+                        System.out.printf (" \tProject Start Date:%tF %tT.%tL%n",
+                                project.getEndDate (),
+                                project.getEndDate (),
+                                project.getEndDate ()
+                        );
+                    }
+                });
+    }
+
+    private void task8 () throws IOException {
+        System.out.println ("Task 8 : Get Employee with Project");
+        System.out.println ("Enter employee id(int) :");
+        var employeeId = Integer.parseInt (bufferedReader.readLine ());
+        var employee = entityManager
+                .find (Employee.class,employeeId);
+
+        System.out.printf ("%s %s - %s%n",
+                employee.getFirstName (),
+                employee.getLastName (),
+                employee.getJobTitle ());
+
+        employee
+                .getProjects ()
+                .stream ()
+                .sorted (Comparator.comparing (Project::getName))
+                .forEach (project -> System.out.println (project.getName ()));
+
+    }
+
+    private void task7 () {
+        System.out.println ("Task 7 : Addresses with Employee Count");
+        entityManager
+                .createQuery ("SELECT a FROM Address a ORDER BY a.employees.size DESC",
+                        Address.class)
+                .setMaxResults (10)
+                .getResultStream ()
+                .forEach (address -> {
+                    System.out.printf ("%s - %d employees%n",
+                            address.getText (),
+                            address.getEmployees ().size ());
+                });
+
     }
 
     private void task6 () throws IOException {
-        //TODO:finish this
         System.out.println ("Enter employee last name");
         String lastName = bufferedReader.readLine ();
         Employee employee = entityManager
@@ -137,13 +224,20 @@ public class Engine implements Runnable {
                 .setParameter ("l_name",lastName)
                 .getSingleResult ();
 
-        Address address = createAddress ("Vitoshka 15");
+        Address address = createAddress ();
+
+        employee.setLastName (lastName);
+        employee.setAddress (address);
+        entityManager.getTransaction ().begin ();
+
+        entityManager.persist (employee);
+
+        entityManager.getTransaction ().commit ();
     }
 
-    private Address createAddress (String addressText) {
-        //TODO:finish this
+    private Address createAddress () {
         Address address = new Address ();
-        address.setText (addressText);
+        address.setText ("Vitoshka 15");
         entityManager.getTransaction ().begin ();
         entityManager.persist (address);
         entityManager.getTransaction ().commit ();
