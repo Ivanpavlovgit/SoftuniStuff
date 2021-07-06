@@ -12,7 +12,7 @@ public class Main {
                 Persistence
                         .createEntityManagerFactory ("cfatestvamtuka")
                         .createEntityManager ();
-
+      
         em.getTransaction ().begin ();
 
 /*
