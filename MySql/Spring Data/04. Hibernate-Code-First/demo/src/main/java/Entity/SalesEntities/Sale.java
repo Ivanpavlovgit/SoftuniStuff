@@ -1,5 +1,5 @@
-package Entity;
-
+package Entity.SalesEntities;
+import Entity.BaseEntity;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;

@@ -1,7 +1,8 @@
-package Entity;
+package Entity.SalesEntities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import Entity.BaseEntity;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,5 +1,5 @@
-package Entity;
-
+package Entity.UniversitySystemEntities;
+import Entity.BaseEntity;
 import javax.persistence.*;
 
 @Entity

@@ -1,5 +1,5 @@
-package Entity;
-
+package Entity.UniversitySystemEntities;
+import Entity.BaseEntity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;

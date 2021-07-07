@@ -1,5 +1,5 @@
-package Entity;
-
+package Entity.GringotsEntitites;
+import Entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -73,7 +73,7 @@ public class WizardDeposit extends BaseEntity {
         return this;
     }
 
-    @Column(name = "magic_wand_size",nullable = false)
+    @Column(name = "magic_wand_size", nullable = false)
     public Short getMagicWandSize () {
         return this.magicWandSize;
     }
@@ -103,7 +103,7 @@ public class WizardDeposit extends BaseEntity {
         return this;
     }
 
-    @Column(name = "deposit_ammount",precision = 10,scale = 3)
+    @Column(name = "deposit_ammount", precision = 10, scale = 3)
     public BigDecimal getDepositAmount () {
         return this.depositAmount;
     }

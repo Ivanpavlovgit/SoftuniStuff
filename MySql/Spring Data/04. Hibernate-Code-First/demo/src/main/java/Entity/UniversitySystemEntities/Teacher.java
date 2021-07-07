@@ -1,4 +1,4 @@
-package Entity;
+package Entity.UniversitySystemEntities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,5 +1,5 @@
-package Entity;
-
+package Entity.SalesEntities;
+import Entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name ="store_locations")
-public class StoreLocation  extends BaseEntity{
+public class StoreLocation  extends BaseEntity {
     private String locationName;
 @Column(name = "location_name",nullable = false)
     public String getLocationName () {
