@@ -6,10 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "comments")
-public class Comment extends BaseEntity {
-
-
-    public Comment () {
+@Table(name = "medicament")
+public class Medicament extends BaseEntity {
+    public Medicament () {
     }
 }
