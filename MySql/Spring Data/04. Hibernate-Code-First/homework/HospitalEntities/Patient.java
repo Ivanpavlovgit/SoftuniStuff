@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "patients")
 public class Patient extends BaseEntity {
     private String firstName;
