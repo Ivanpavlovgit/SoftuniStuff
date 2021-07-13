@@ -1,5 +1,6 @@
 package com.example.springintro;
 
+import com.example.springintro.model.entity.AgeRestriction;
 import com.example.springintro.model.entity.Book;
 import com.example.springintro.service.AuthorService;
 import com.example.springintro.service.BookService;
@@ -34,43 +35,50 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         System.out.println ("Exercises: Spring Data Advanced Querying");
 
 
-            System.out.println ("Do you want to select a task (YES/NO)");
-            String input = reader.readLine ();
-            while (!input.equalsIgnoreCase ("NO")) {
-                if (input.equalsIgnoreCase ("YES")) {
-                    System.out.println ("Select task number");
-                    int taskNum = Integer.parseInt (reader.readLine ());
-                    switch (taskNum) {
-                        case 1 -> task1 ();
-                        case 2 -> task2 ();
-                        case 3 -> task3 ();
-                        case 4 -> task4 ();
-                        case 5 -> task5 ();
-                        case 6 -> task6 ();
-                        case 7 -> task7 ();
-                        case 8 -> task8 ();
-                        case 9 -> task9 ();
-                        case 10 -> task10 ();
-                        case 11 -> task11 ();
-                        case 12 -> task12 ();
-                        case 13 -> task13 ();
+        System.out.println ("Do you want to select a task (YES/NO)");
+        String input = reader.readLine ();
+        while (!input.equalsIgnoreCase ("NO")) {
+            if (input.equalsIgnoreCase ("YES")) {
+                System.out.println ("Select task number");
+                int taskNum = Integer.parseInt (reader.readLine ());
+                switch (taskNum) {
+                    case 1 -> task1 ();
+                    case 2 -> task2 ();
+                    case 3 -> task3 ();
+                    case 4 -> task4 ();
+                    case 5 -> task5 ();
+                    case 6 -> task6 ();
+                    case 7 -> task7 ();
+                    case 8 -> task8 ();
+                    case 9 -> task9 ();
+                    case 10 -> task10 ();
+                    case 11 -> task11 ();
+                    case 12 -> task12 ();
+                    case 13 -> task13 ();
 
-                    }
-                    System.out.println ("Do you want to select another task (YES/NO)");
-                } else {
-                    System.out.println ("Incorrect input");
-                    System.out.println ("Please write YES,NO or a task number (int)");
                 }
-                input = reader.readLine ();
-
+                System.out.println ("Do you want to select another task (YES/NO)");
+            } else {
+                System.out.println ("Incorrect input");
+                System.out.println ("Please write YES,NO or a task number (int)");
             }
-            System.out.println ("Hope you have had fun with our UX !");
-            System.out.println ("Have a nice and bug free day !");
+            input = reader.readLine ();
+
+        }
+        System.out.println ("Hope you had fun with our UX !");
+        System.out.println ("Have a nice and bug free day !");
 
     }
 
-    private void task1 () {
+    private void task1 () throws IOException {
         System.out.println ("1.Books Titles by Age Restriction");
+        System.out.println ("Enter age restriction");
+        var ageRestriction = AgeRestriction.valueOf (reader.readLine ().toUpperCase ());
+
+        bookService
+                .findAllBookTitlesWithAgeRestriction (ageRestriction)
+                .forEach (System.out::println);
+
     }
 
     private void task2 () {
