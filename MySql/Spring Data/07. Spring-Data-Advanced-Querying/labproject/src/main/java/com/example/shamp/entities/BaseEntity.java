@@ -1,6 +1,7 @@
 package com.example.shamp.entities;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -20,4 +21,9 @@ public abstract class BaseEntity {
     public void setId(Long id) {
         this.id = id;
     }
+
+/*    @Override
+    public String toString () {
+        return Arrays.stream (this.getClass ().getFields ()).map ()
+    }*/
 }
