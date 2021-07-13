@@ -4,6 +4,8 @@ import com.example.springintro.model.entity.AgeRestriction;
 import com.example.springintro.model.entity.Book;
 import com.example.springintro.model.entity.EditionType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -24,9 +26,16 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findAllByEditionTypeAndCopiesLessThan (EditionType editionType,Integer copies);
 
-   List<Book> findAllByPriceLessThanOrPriceGreaterThan (BigDecimal price,BigDecimal price2);
+    List<Book> findAllByPriceLessThanOrPriceGreaterThan (BigDecimal price,BigDecimal price2);
 
-   List<Book> findAllByReleaseDateAfterOrReleaseDateBefore (LocalDate releaseDate,LocalDate releaseDate2);
+    List<Book> findAllByReleaseDateAfterOrReleaseDateBefore (LocalDate releaseDate,LocalDate releaseDate2);
 
+    List<Book> findAllByTitleContaining (String title);
 
+    List<Book> findAllByAuthor_LastNameStartsWith (String author_lastName);
+
+    @Query("SELECT COUNT (b) FROM Book b WHERE length(b.title)>:param1")
+    int countOfBooksWithTitleLengthMoreThan (@Param(value = "param1") int titleLength);
+
+    Book findAllByTitle (String title);
 }

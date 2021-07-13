@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
@@ -105,34 +107,69 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 .forEach (System.out::println);
     }
 
-    private void task5 () {
+    private void task5 () throws IOException {
         System.out.println ("5.Books Released Before Date");
+        System.out.println ("Enter date in format dd-MM-yyyy");
+        var date = LocalDate.parse (reader.readLine (),DateTimeFormatter.ofPattern ("dd-MM-yyyy"));
+        bookService
+                .findAllBooksWithReleaseDateAfterDate (date)
+                .forEach (System.out::println);
     }
 
-    private void task6 () {
+    private void task6 () throws IOException {
         System.out.println ("6.Authors Search");
+        System.out.println ("Enter a char sequence with which the authors first name must end ");
+        var charsToEndWith = reader.readLine ();
+
+        this.authorService
+                .findAllAuthorsWhichHaveFirstNameEndingWith (charsToEndWith)
+                .forEach (System.out::println);
     }
 
-    private void task7 () {
-        System.out.println ("");
-    }
-
-    private void task8 () {
+    private void task7 () throws IOException {
         System.out.println ("7.Books Search");
+        System.out.println ("Enter a string to search in book titles (case insensitive)");
+        var str = reader.readLine ();
+        this.bookService
+                .findAllBooksWithTitlesIncluding (str)
+                .forEach (System.out::println);
+    }
+
+    private void task8 () throws IOException {
+        System.out.println ("8.Book Titles Search");
+        System.out.println ("Enter a string for a start of last name of the authors whose book you like to find");
+
+        var str = reader.readLine ();
+
+        bookService
+                .findAllBooksWithAuthorWithLastNameStartingWith (str)
+                .forEach (System.out::println);
+
 
     }
 
-    private void task9 () {
+    private void task9 () throws IOException {
         System.out.println ("9.Count Books");
+        System.out.println ("Enter criteria (int) for length or book titles");
+        var length = Integer.parseInt (reader.readLine ());
 
+        System.out.println (bookService
+                .findCountOfBooksWithTitlesLongerThan (length));
     }
 
-    private void task10 () {
+    private void task10 () throws IOException {
         System.out.println ("10.Total Book Copies");
+
+        this.authorService
+                .getAllAuthorsOrderedByTotalBookCopies ()
+                .forEach (System.out::println);
     }
 
-    private void task11 () {
+    private void task11 () throws IOException {
         System.out.println ("11.Reduced Book");
+        System.out.println ("Enter Book Title");
+        var bookTitle = reader.readLine ();
+        System.out.println (bookService.getReducedInformationAboutBookByTitle (bookTitle));
     }
 
     private void task12 () {

@@ -101,7 +101,7 @@ public class BookServiceImpl implements BookService {
     public List<String> findAllBookTitlesAndPricesNotBetween5And40 () {
         return
                 this.bookRepository
-                        .findAllByPriceLessThanOrPriceGreaterThan (BigDecimal.valueOf (5L),BigDecimal.valueOf(40L))
+                        .findAllByPriceLessThanOrPriceGreaterThan (BigDecimal.valueOf (5L),BigDecimal.valueOf (40L))
                         .stream ()
                         .map (book -> String.format ("%s - $ %.2f"
                                 ,book.getTitle (),book.getPrice ()))
@@ -116,7 +116,58 @@ public class BookServiceImpl implements BookService {
                         LocalDate.of (year,12,31))
                 .stream ()
                 .map (Book::getTitle)
-                .collect(Collectors.toList());
+                .collect (Collectors.toList ());
+    }
+
+    @Override
+    public List<String> findAllBooksWithReleaseDateAfterDate (LocalDate date) {
+        return this.bookRepository
+                .findAllByReleaseDateBefore (date)
+                .stream ()
+                .map (book -> String.format ("%s %s %.2f",
+                        book.getTitle (),
+                        book.getEditionType (),
+                        book.getPrice ()))
+                .collect (Collectors.toList ());
+    }
+
+    @Override
+    public List<String> findAllBooksWithTitlesIncluding (String str) {
+        return this.bookRepository
+                .findAllByTitleContaining (str)
+                .stream ()
+                .map (Book::getTitle)
+                .collect (Collectors.toList ());
+    }
+
+    @Override
+    public List<String> findAllBooksWithAuthorWithLastNameStartingWith (String str) {
+        return bookRepository
+                .findAllByAuthor_LastNameStartsWith (str)
+                .stream ()
+                .map (book ->
+                        String.format ("%s (%s %s)",
+                                book.getTitle (),
+                                book.getAuthor ().getFirstName (),
+                                book.getAuthor ().getLastName ()))
+                .collect (Collectors.toList ());
+    }
+
+    @Override
+    public int findCountOfBooksWithTitlesLongerThan (int length) {
+        return bookRepository
+                .countOfBooksWithTitleLengthMoreThan (length);
+    }
+
+    @Override
+    public String getReducedInformationAboutBookByTitle (String bookTitle) {
+        var targetBook = bookRepository.findAllByTitle (bookTitle);
+        return String.format ("%s %s %s %.2f",
+                targetBook.getTitle (),
+                targetBook.getEditionType (),
+                targetBook.getAgeRestriction (),
+                targetBook.getPrice ());
+
     }
 
     private Book createBookFromInfo (String[] bookInfo) {
