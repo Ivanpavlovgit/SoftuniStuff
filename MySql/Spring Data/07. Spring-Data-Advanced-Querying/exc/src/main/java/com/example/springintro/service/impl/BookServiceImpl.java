@@ -85,6 +85,37 @@ public class BookServiceImpl implements BookService {
                 .findAllByAgeRestriction (ageRestriction)
                 .stream ()
                 .map (Book::getTitle)
+                .collect (Collectors.toList ());
+    }
+
+    @Override
+    public List<String> findAllGoldBookTitlesWithLessThan5000 () {
+        return bookRepository
+                .findAllByEditionTypeAndCopiesLessThan (EditionType.GOLD,5000)
+                .stream ()
+                .map (Book::getTitle)
+                .collect (Collectors.toList ());
+    }
+
+    @Override
+    public List<String> findAllBookTitlesAndPricesNotBetween5And40 () {
+        return
+                this.bookRepository
+                        .findAllByPriceLessThanOrPriceGreaterThan (BigDecimal.valueOf (5L),BigDecimal.valueOf(40L))
+                        .stream ()
+                        .map (book -> String.format ("%s - $ %.2f"
+                                ,book.getTitle (),book.getPrice ()))
+                        .collect (Collectors.toList ());
+    }
+
+    @Override
+    public List<String> findAllBookTitlesNotReleasedInTheGivenYear (int year) {
+        return this.bookRepository
+                .findAllByReleaseDateAfterOrReleaseDateBefore (
+                        LocalDate.of (year,1,1),
+                        LocalDate.of (year,12,31))
+                .stream ()
+                .map (Book::getTitle)
                 .collect(Collectors.toList());
     }
 

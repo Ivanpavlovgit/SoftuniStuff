@@ -83,14 +83,26 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     private void task2 () {
         System.out.println ("2.Golden Books");
+        bookService.findAllGoldBookTitlesWithLessThan5000 ()
+                .forEach (System.out::println);
     }
 
     private void task3 () {
         System.out.println ("3.Books by Price");
+        var result = bookService.findAllBookTitlesAndPricesNotBetween5And40 ();
+        result.forEach (System.out::println);
+        System.out.printf ("%d Books found.%n",result.size ());
     }
 
-    private void task4 () {
+    private void task4 () throws IOException {
         System.out.println ("4.Not Released Books");
+        System.out.println ("Enter an year (int) to find books that are not released in that year");
+
+        var year = Integer.parseInt (reader.readLine ());
+
+        this.bookService
+                .findAllBookTitlesNotReleasedInTheGivenYear (year)
+                .forEach (System.out::println);
     }
 
     private void task5 () {

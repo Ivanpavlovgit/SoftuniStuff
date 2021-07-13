@@ -16,4 +16,10 @@ public interface BookService {
     List<String> findAllBooksByAuthorFirstAndLastNameOrderByReleaseDate(String firstName, String lastName);
 
     List<String> findAllBookTitlesWithAgeRestriction (AgeRestriction ageRestriction);
+
+    List<String> findAllGoldBookTitlesWithLessThan5000 ();
+
+    List<String> findAllBookTitlesAndPricesNotBetween5And40 ();
+
+    List<String> findAllBookTitlesNotReleasedInTheGivenYear (int year);
 }
