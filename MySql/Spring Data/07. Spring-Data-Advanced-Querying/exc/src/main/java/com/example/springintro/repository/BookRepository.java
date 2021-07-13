@@ -4,10 +4,17 @@ import com.example.springintro.model.entity.AgeRestriction;
 import com.example.springintro.model.entity.Book;
 import com.example.springintro.model.entity.EditionType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -38,4 +45,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     int countOfBooksWithTitleLengthMoreThan (@Param(value = "param1") int titleLength);
 
     Book findAllByTitle (String title);
+
+
+    int countAllByAuthor_FirstNameAndAuthorLastName (String author_firstName,String author_lastName);
+
+    @Query("UPDATE Book b SET b.copies=b.copies+:amount WHERE b.releaseDate=:date")
+    @Modifying
+    void increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (LocalDate date,int amount);
+
+
+
 }

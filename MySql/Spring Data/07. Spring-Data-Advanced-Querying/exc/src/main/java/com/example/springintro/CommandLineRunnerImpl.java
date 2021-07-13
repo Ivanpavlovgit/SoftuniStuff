@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
@@ -57,6 +58,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                     case 11 -> task11 ();
                     case 12 -> task12 ();
                     case 13 -> task13 ();
+                    case 14 -> task14 ();
 
                 }
                 System.out.println ("Do you want to select another task (YES/NO)");
@@ -71,6 +73,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         System.out.println ("Have a nice and bug free day !");
 
     }
+
 
     private void task1 () throws IOException {
         System.out.println ("1.Books Titles by Age Restriction");
@@ -157,7 +160,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 .findCountOfBooksWithTitlesLongerThan (length));
     }
 
-    private void task10 () throws IOException {
+    private void task10 () {
         System.out.println ("10.Total Book Copies");
 
         this.authorService
@@ -172,14 +175,39 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         System.out.println (bookService.getReducedInformationAboutBookByTitle (bookTitle));
     }
 
-    private void task12 () {
+    private void task12 () throws IOException {
         System.out.println ("12.* Increase Book Copies");
+        System.out.println ("Enter date in tne format dd MMM yyyy");
+        var inputDate     = reader.readLine ();
+        var format        = DateTimeFormatter.ofPattern ("dd MMM yyyy");
+        var formattedDate = LocalDate.parse (inputDate,format);
+
+        //  var date = LocalDate.parse (reader.readLine (),DateTimeFormatter.ofPattern ("dd-MMM-yyyy"));
+        System.out.println ("Enter amount of copies to be added");
+        var amountOfCopies = Integer.parseInt (reader.readLine ());
+
+        bookService.increaseCopiesOfBookReleasedOn (formattedDate,amountOfCopies);
+
     }
 
     private void task13 () {
         System.out.println ("13.* Remove Books");
+
     }
 
+    private void task14 () throws IOException {
+        System.out.println ("14.* Stored Procedure");
+        System.out.println ("Enter first name and last name of author");
+        var authorFullName  = reader.readLine ().split ("\\s+");
+        var authorFirstName = authorFullName[0];
+        var authorLastName  = authorFullName[1];
+
+        var numberOfBooks = this.bookService
+                .getCountBooksByAuthorFirstAndLastName (
+                        authorFirstName,
+                        authorLastName);
+        System.out.printf ("%s %s has written %d books",authorFirstName,authorLastName,numberOfBooks);
+    }
 
     private void printALlBooksByAuthorNameOrderByReleaseDate (String firstName,String lastName) {
         bookService

@@ -2,6 +2,7 @@ package com.example.springintro.service;
 
 import com.example.springintro.model.entity.AgeRestriction;
 import com.example.springintro.model.entity.Book;
+import org.springframework.data.jpa.repository.query.Procedure;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -33,4 +34,11 @@ public interface BookService {
     int findCountOfBooksWithTitlesLongerThan (int length);
 
     String getReducedInformationAboutBookByTitle (String bookTitle);
+
+    int findCountBooksByAuthorFirstAndLastName (String authorFirstName,String authorLastName);
+
+    void increaseCopiesOfBookReleasedOn (LocalDate date,int amountOfCopies);
+
+
+    int getCountBooksByAuthorFirstAndLastName (String authorFirstName,String authorLastName);
 }
