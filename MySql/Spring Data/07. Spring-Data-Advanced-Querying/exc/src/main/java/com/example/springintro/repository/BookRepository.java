@@ -49,10 +49,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     int countAllByAuthor_FirstNameAndAuthorLastName (String author_firstName,String author_lastName);
 
-    @Query("UPDATE Book b SET b.copies=b.copies+:amount WHERE b.releaseDate=:date")
     @Modifying
-    void increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (LocalDate date,int amount);
+    @Query("UPDATE Book b SET b.copies=b.copies+:amount WHERE b.releaseDate=:date")
+    int increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (@Param(value = "amount") int amount,
+                                                                   @Param(value = "date") LocalDate date);
 
+   // int updateCopiesByReleaseDate ();
 
 
 }

@@ -6,6 +6,7 @@ import com.example.springintro.service.AuthorService;
 import com.example.springintro.service.BookService;
 import com.example.springintro.service.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -173,21 +174,24 @@ public class BookServiceImpl implements BookService {
     @Override
     public int findCountBooksByAuthorFirstAndLastName (String authorFirstName,String authorLastName) {
         return bookRepository
-                .countAllByAuthor_FirstNameAndAuthorLastName(
+                .countAllByAuthor_FirstNameAndAuthorLastName (
                         authorFirstName,
                         authorLastName);
     }
 
-    @Override
-    public void increaseCopiesOfBookReleasedOn (LocalDate date,int amountOfCopies) {
-        this.bookRepository
-                .increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (date,amountOfCopies);
-    }
 
     @Override
     public int getCountBooksByAuthorFirstAndLastName (String authorFirstName,String authorLastName) {
         return this.bookRepository
                 .countAllByAuthor_FirstNameAndAuthorLastName (authorFirstName,authorLastName);
+    }
+
+    @Override
+    @Transactional
+    public int increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (LocalDate date,int amountOfCopies) {
+        int affectedRows = bookRepository.
+                increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (amountOfCopies,date);
+        return affectedRows * amountOfCopies;
     }
 
 

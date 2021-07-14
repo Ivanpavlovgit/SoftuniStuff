@@ -7,6 +7,7 @@ import com.example.springintro.service.BookService;
 import com.example.springintro.service.CategoryService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -175,18 +176,21 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         System.out.println (bookService.getReducedInformationAboutBookByTitle (bookTitle));
     }
 
+
     private void task12 () throws IOException {
         System.out.println ("12.* Increase Book Copies");
         System.out.println ("Enter date in tne format dd MMM yyyy");
-        var inputDate     = reader.readLine ();
-        var format        = DateTimeFormatter.ofPattern ("dd MMM yyyy");
-        var formattedDate = LocalDate.parse (inputDate,format);
+        var date = LocalDate.
+                parse (reader.readLine (),
+                        DateTimeFormatter.ofPattern ("dd MMM yyyy"));
+        var inputDate = reader.readLine ();
+        //  var format        = DateTimeFormatter.ofPattern ("dd MMM yyyy");
+        //  var formattedDate = LocalDate.parse (inputDate,format);
 
         //  var date = LocalDate.parse (reader.readLine (),DateTimeFormatter.ofPattern ("dd-MMM-yyyy"));
         System.out.println ("Enter amount of copies to be added");
         var amountOfCopies = Integer.parseInt (reader.readLine ());
-
-        bookService.increaseCopiesOfBookReleasedOn (formattedDate,amountOfCopies);
+        bookService.increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (date,amountOfCopies);
 
     }
 

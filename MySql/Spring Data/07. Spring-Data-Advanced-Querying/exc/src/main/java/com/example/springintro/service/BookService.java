@@ -37,8 +37,12 @@ public interface BookService {
 
     int findCountBooksByAuthorFirstAndLastName (String authorFirstName,String authorLastName);
 
-    void increaseCopiesOfBookReleasedOn (LocalDate date,int amountOfCopies);
+
 
 
     int getCountBooksByAuthorFirstAndLastName (String authorFirstName,String authorLastName);
+
+   // int increaseCopiesByDate (LocalDate date,int amountOfCopies);
+
+    int increaseCopiesOfBookPrintedOnSelectedDateBySelectedAmount (LocalDate date,int amountOfCopies);
 }
