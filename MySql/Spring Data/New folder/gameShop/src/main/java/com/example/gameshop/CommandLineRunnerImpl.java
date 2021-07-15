@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
@@ -54,6 +56,12 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                                 .setThumbnailURL (commands[5])
                                 .setDescription (commands[6])
                                 .setReleaseDate (commands[7]));
+                case "EditGame" -> gameService
+                        .editGame (Long.parseLong (commands[1]),
+                                new BigDecimal (commands[2]),
+                                Double.parseDouble (commands[3]));
+                case "DeleteGame" -> gameService
+                        .deleteGame (Long.parseLong (commands[1]));
             }
         }
     }

@@ -18,6 +18,7 @@ public class UserServiceImpl implements UserService {
     private final ValidationUtil validator;
     private User loggedInUser;
 
+
     public UserServiceImpl (UserRepository userRepository,ModelMapper mapper,ValidationUtil validator) {
         this.userRepository = userRepository;
         this.mapper = mapper;

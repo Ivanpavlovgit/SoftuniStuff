@@ -2,6 +2,7 @@ package com.example.gameshop.Model.Dto;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class GameAddDto {
 
@@ -89,5 +90,5 @@ public class GameAddDto {
 
     public GameAddDto () {
     }
-    //TODO: parse immageThumbnail and release date from gameAddDto to Game wih modelMapper
+
 }
