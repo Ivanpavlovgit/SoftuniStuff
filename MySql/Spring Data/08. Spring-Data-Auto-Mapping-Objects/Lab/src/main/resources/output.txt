@@ -1,0 +1,75 @@
+[
+  {
+    "subordinates": [
+      {
+        "income": 2000.00,
+        "firstName": "gosho",
+        "lastName": "goshov"
+      },
+      {
+        "income": 1000.00,
+        "firstName": "minka",
+        "lastName": "minkova"
+      }
+    ],
+    "firstName": "pesho",
+    "lastName": "petrov"
+  },
+  {
+    "subordinates": [
+      {
+        "income": 500.00,
+        "firstName": "lenka",
+        "lastName": "leneva"
+      }
+    ],
+    "firstName": "gosho",
+    "lastName": "goshov"
+  },
+  {
+    "subordinates": [
+      {
+        "income": 1010.00,
+        "firstName": "penka",
+        "lastName": "peneve"
+      }
+    ],
+    "firstName": "minka",
+    "lastName": "minkova"
+  },
+  {
+    "subordinates": [],
+    "firstName": "penka",
+    "lastName": "peneve"
+  },
+  {
+    "subordinates": [],
+    "firstName": "lenka",
+    "lastName": "leneva"
+  },
+  {
+    "subordinates": [],
+    "firstName": "Purviq",
+    "lastName": "Chovek"
+  },
+  {
+    "subordinates": [],
+    "firstName": "Vtoriq",
+    "lastName": "Chovek"
+  },
+  {
+    "subordinates": [],
+    "firstName": "Tretiq",
+    "lastName": "Chovek"
+  },
+  {
+    "subordinates": [],
+    "firstName": "Posledniq",
+    "lastName": "Chovek"
+  },
+  {
+    "subordinates": [],
+    "firstName": "Purviq",
+    "lastName": "Chovek"
+  }
+]

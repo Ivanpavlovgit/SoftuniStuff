@@ -1,0 +1,26 @@
+[
+  {
+    "firstName": "Purviq",
+    "lastName": "Chovek",
+    "salary": 1111,
+    "address": "TukTam"
+  },
+  {
+    "firstName": "Vtoriq",
+    "lastName": "Chovek",
+    "salary": 2222,
+    "address": "TukTam"
+  },
+  {
+    "firstName": "Tretiq",
+    "lastName": "Chovek",
+    "salary": 3333,
+    "address": "TukTam"
+  },
+  {
+    "firstName": "Posledniq",
+    "lastName": "Chovek",
+    "salary": 4444,
+    "address": "TukTam"
+  }
+]
