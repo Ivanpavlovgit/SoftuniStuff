@@ -12,7 +12,7 @@ public class Product extends BaseEntity {
     private BigDecimal price;
     private User seller;
     private Set<Category> categories;
-
+    private User buyer;
     public Product () {
 
     }
@@ -57,7 +57,7 @@ public class Product extends BaseEntity {
         return this;
     }
 
-    private User buyer;
+
 
     public Product (Set<Category> categories) {
     }

@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Protonix",
+    "price": 466.70,
+    "seller": "Thomas Snyder"
+  },
+  {
+    "name": "allergy eye",
+    "price": 426.91,
+    "seller": "Brenda Howell"
+  },
+  {
+    "name": "Eszopiclone",
+    "price": 405.03,
+    "seller": "null Thompson"
+  },
+  {
+    "name": "Etomidate",
+    "price": 393.94,
+    "seller": "Sandra Riley"
+  },
+  {
+    "name": "Fluoxetine",
+    "price": 385.37,
+    "seller": "null Schmidt"
+  },
+  {
+    "name": "Almond",
+    "price": 367.32,
+    "seller": "null Thompson"
+  },
+  {
+    "name": "CEDAX",
+    "price": 342.86,
+    "seller": "Rachel Johnson"
+  },
+  {
+    "name": "Allopurinol",
+    "price": 336.81,
+    "seller": "Paula Hill"
+  },
+  {
+    "name": "Air",
+    "price": 331.53,
+    "seller": "null Harrison"
+  },
+  {
+    "name": "Leflunomide",
+    "price": 312.85,
+    "seller": "Gloria Alexander"
+  },
+  {
+    "name": "Pioglitazone",
+    "price": 306.56,
+    "seller": "Emily Parker"
+  },
+  {
+    "name": "Goats Milk",
+    "price": 298.53,
+    "seller": "Clarence Fowler"
+  },
+  {
+    "name": "PredniSONE",
+    "price": 286.43,
+    "seller": "Rachel Johnson"
+  },
+  {
+    "name": "Cold and Cough",
+    "price": 218.14,
+    "seller": "null Bennett"
+  },
+  {
+    "name": "Burn Jel",
+    "price": 209.57,
+    "seller": "Thomas Snyder"
+  }
+]

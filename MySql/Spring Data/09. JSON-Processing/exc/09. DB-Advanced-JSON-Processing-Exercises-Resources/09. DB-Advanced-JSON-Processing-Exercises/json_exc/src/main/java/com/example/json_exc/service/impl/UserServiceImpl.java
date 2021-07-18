@@ -2,6 +2,7 @@ package com.example.json_exc.service.impl;
 
 import com.example.json_exc.consts.GlobalConstants;
 import com.example.json_exc.model.Dto.UserSeedDto;
+import com.example.json_exc.model.Dto.UserSoldDto;
 import com.example.json_exc.model.entity.User;
 import com.example.json_exc.repository.UserRepository;
 import com.example.json_exc.service.UserService;
@@ -14,7 +15,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -56,5 +59,17 @@ public class UserServiceImpl implements UserService {
         return this.userRepository
                 .findById (randomId)
                 .orElse (null);
+    }
+
+    @Override
+    public List<UserSoldDto> findAllUsersWithMoreThanOneSoldProduct () {
+      var resul= this.userRepository
+                .findAllUsersWithMoreThanOneSoldProductOrderedByLastNameThenByFirstName ()
+                .stream ()
+                .map (user -> modelMapper.map (user,UserSoldDto.class))
+                .collect (Collectors.toList ());
+        System.out.println ("dsa");
+return resul;
+
     }
 }

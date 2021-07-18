@@ -1,6 +1,7 @@
 package com.example.json_exc.service.impl;
 
 import com.example.json_exc.consts.GlobalConstants;
+import com.example.json_exc.model.Dto.ProductNameAndPriceDto;
 import com.example.json_exc.model.Dto.ProductSeedDto;
 import com.example.json_exc.model.entity.Product;
 import com.example.json_exc.repository.ProductsRepository;
@@ -17,6 +18,8 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -58,5 +61,23 @@ public class ProductServiceImpl implements ProductService {
                         return product;
                     }).forEach (this.productsRepository::save);
         }
+    }
+
+    @Override
+    public List<ProductNameAndPriceDto> findAllProductsInRangeOrderedByPrice (BigDecimal lower,BigDecimal upper) {
+        return productsRepository
+                .findAllByPriceBetweenAndBuyerIsNullOrderByPriceDesc (lower,upper)
+                .stream ()
+                .map (product -> {
+                    ProductNameAndPriceDto productNameAndPriceDto = modelMapper
+                            .map (product,ProductNameAndPriceDto.class);
+
+                    productNameAndPriceDto.setSeller (String.format ("%s %s",
+                            product.getSeller ().getFirstName (),
+                            product.getSeller ().getLastName ()));
+
+                    return productNameAndPriceDto;
+                })
+                .collect (Collectors.toList ());
     }
 }
