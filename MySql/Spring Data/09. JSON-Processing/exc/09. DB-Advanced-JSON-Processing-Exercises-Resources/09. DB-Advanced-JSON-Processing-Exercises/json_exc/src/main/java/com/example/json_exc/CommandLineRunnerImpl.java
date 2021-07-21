@@ -1,6 +1,6 @@
 package com.example.json_exc;
 
-import com.example.json_exc.consts.GlobalConstants;
+import com.example.json_exc.contants.GlobalConstants;
 import com.example.json_exc.model.Dto.ProductNameAndPriceDto;
 import com.example.json_exc.model.Dto.UserSoldDto;
 import com.example.json_exc.service.CategoryService;
@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.imageio.stream.FileCacheImageInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -50,7 +49,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     private void soldProducts () {
       List<UserSoldDto> userSoldDtos =userService
-                        .findAllUsersWithMoreThanOneSoldProduct();
+                       .findAllUsersWithMoreThanOneSoldProduct();
     }
 
     private void productsInRange () throws IOException {
