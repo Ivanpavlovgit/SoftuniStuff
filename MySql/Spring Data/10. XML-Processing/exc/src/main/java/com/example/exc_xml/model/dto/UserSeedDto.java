@@ -8,11 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "user")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserSeedDto {
-    @XmlAttribute(name="first-name")
+
+    @XmlAttribute(name = "first-name")
     private String firstName;
-    @XmlAttribute(name="last-name")
+    @XmlAttribute(name = "last-name")
     private String lastName;
-    @XmlAttribute(name="age")
+    @XmlAttribute(name = "age")
     private Integer age;
 
     public String getFirstName () {

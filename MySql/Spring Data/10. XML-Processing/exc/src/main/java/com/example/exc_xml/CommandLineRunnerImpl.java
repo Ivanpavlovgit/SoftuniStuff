@@ -3,6 +3,7 @@ package com.example.exc_xml;
 import com.example.exc_xml.consts.GlobalConstants;
 import com.example.exc_xml.model.dto.CategorySeedRootDto;
 import com.example.exc_xml.model.dto.ProductSeedRootDto;
+import com.example.exc_xml.model.dto.ProductViewRootDto;
 import com.example.exc_xml.model.dto.UserSeedRootDto;
 import com.example.exc_xml.service.CategoryService;
 import com.example.exc_xml.service.ProductService;
@@ -21,8 +22,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     private final XmlParser xmlParser;
     private final CategoryService categoryService;
     private final UserService userService;
-    private static final String RESOURCES_FILE_PATH = "src/main/resources/files/";
-    private static final String CATEGORIES_FILE_NAME = "src/main/resources/files/categories.xml";
     private ProductService productService;
 
     public CommandLineRunnerImpl (BufferedReader reader,XmlParser xmlParser,CategoryService categoryService,UserService userService,ProductService productService) {
@@ -46,10 +45,10 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         String input = reader.readLine ();
         while (!input.equalsIgnoreCase ("NO")) {
             if (input.equalsIgnoreCase ("YES")) {
-                System.out.println ("Select task number");
+                System.out.println ("Select task number (starting from 2)");
                 int taskNum = Integer.parseInt (reader.readLine ());
                 switch (taskNum) {
-
+                    case 2 -> task2 ();
 
                 }
                 System.out.println ("Do you want to select another task (YES/NO)");
@@ -65,6 +64,16 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     }
 
+    private void task2 () throws JAXBException {
+        System.out.println ("You have selected Products in Range task");
+        ProductViewRootDto productViewRootDto =
+                this.productService
+                        .findProductsInRangeWithNoBuyer ();
+
+        xmlParser.writeToFile (GlobalConstants.OUTPUT_FILE_PATH + "2ndTask.xml",productViewRootDto);
+    }
+
+
     private void seedData () throws JAXBException, FileNotFoundException {
         if (this.categoryService.getCount () == 0) {
             CategorySeedRootDto categorySeedRootDto = xmlParser.fromFile (GlobalConstants.RESOURCES_FILE_PATH + GlobalConstants.CATEGORIES_FILE_NAME,
@@ -77,9 +86,12 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
             this.userService.seedUsers (userSeedRootDto.getUsers ());
         }
         if (this.productService.getCount () == 0) {
-            ProductSeedRootDto productSeedRootDto = xmlParser.fromFile (GlobalConstants.RESOURCES_FILE_PATH + GlobalConstants.PRODUCTS_FILE_NAME,
-                    ProductSeedRootDto.class);
-            this.productService.seedProducts (productSeedRootDto.getProducts () );
+            ProductSeedRootDto productSeedRootDto = xmlParser
+                    .fromFile (GlobalConstants.RESOURCES_FILE_PATH +
+                                    GlobalConstants.PRODUCTS_FILE_NAME,
+                            ProductSeedRootDto.class);
+
+            this.productService.seedProducts (productSeedRootDto.getProducts ());
         }
     }
 }

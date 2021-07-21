@@ -6,21 +6,21 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name="products")
+@XmlRootElement(name = "products")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductSeedRootDto {
+public class ProductViewRootDto {
     @XmlElement(name="product")
-    private List<ProductSeedDto> products;
+    private List<ProductWithSellerDto> products;
 
-    public List<ProductSeedDto> getProducts () {
+    public List<ProductWithSellerDto> getProducts () {
         return this.products;
     }
 
-    public ProductSeedRootDto setProducts (List<ProductSeedDto> products) {
+    public ProductViewRootDto setProducts (List<ProductWithSellerDto> products) {
         this.products = products;
         return this;
     }
 
-    public ProductSeedRootDto () {
+    public ProductViewRootDto () {
     }
 }

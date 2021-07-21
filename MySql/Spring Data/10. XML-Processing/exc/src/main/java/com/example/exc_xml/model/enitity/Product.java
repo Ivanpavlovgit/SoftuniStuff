@@ -57,11 +57,6 @@ public class Product extends BaseEntity {
         return this;
     }
 
-
-
-    public Product (Set<Category> categories) {
-    }
-
     @ManyToMany
     public Set<Category> getCategories () {
         return this.categories;

@@ -6,11 +6,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name="users")
+@XmlRootElement(name = "users")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserSeedRootDto {
-    @XmlElement(name="user")
-  private  List<UserSeedDto> users;
+
+    @XmlElement(name = "user")
+    private List<UserSeedDto> users;
 
     public List<UserSeedDto> getUsers () {
         return this.users;
